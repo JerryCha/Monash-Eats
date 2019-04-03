@@ -1,2 +1,2 @@
 # Monash-Eats
-Team 34 implements MONASH EATS.
+Imeplementation work of MONASH EATS done by team34
