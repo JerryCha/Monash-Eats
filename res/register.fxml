@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="12.0" layoutY="12.0" prefHeight="377.0" prefWidth="576.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+         <children>
+            <Label id="registerTitle" layoutX="68.0" layoutY="44.0" text="Register">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button id="submitButton" layoutX="554.0" layoutY="508.0" mnemonicParsing="false" text="Submit" />
+            <Label layoutX="223.0" layoutY="108.0" text="E-mail" />
+            <TextField id="emailTextField" layoutX="293.0" layoutY="103.0" prefHeight="27.0" prefWidth="314.0" />
+            <Label contentDisplay="RIGHT" layoutX="202.0" layoutY="153.0" text="Password" />
+            <PasswordField id="pwdTextField" layoutX="294.0" layoutY="148.0" prefHeight="27.0" prefWidth="314.0" />
+            <Label contentDisplay="RIGHT" layoutX="224.0" layoutY="198.0" text="Name" />
+            <TextField id="pwdTextField" layoutX="293.0" layoutY="193.0" prefHeight="27.0" prefWidth="314.0" />
+            <Label contentDisplay="RIGHT" layoutX="211.0" layoutY="243.0" text="Address" />
+            <TextField id="pwdTextField" layoutX="293.0" layoutY="240.0" prefHeight="27.0" prefWidth="314.0" />
+            <Label contentDisplay="RIGHT" layoutX="220.0" layoutY="289.0" text="Phone" />
+            <TextField id="pwdTextField" layoutX="293.0" layoutY="286.0" prefHeight="27.0" prefWidth="314.0" />
+            <ComboBox id="secQueBox1" layoutX="293.0" layoutY="332.0" prefHeight="27.0" prefWidth="317.0" />
+            <Label contentDisplay="RIGHT" layoutX="155.0" layoutY="337.0" text="Secure Question 1" />
+            <Label layoutX="221.0" layoutY="379.0" text="Answer" />
+            <TextField id="ansTextField1" layoutX="292.0" layoutY="374.0" prefHeight="27.0" prefWidth="318.0" />
+            <ComboBox id="secQueBox2" layoutX="294.0" layoutY="414.0" prefHeight="27.0" prefWidth="317.0" />
+            <Label contentDisplay="RIGHT" layoutX="156.0" layoutY="419.0" text="Secure Question 2" />
+            <TextField id="ansTextField1" layoutX="294.0" layoutY="454.0" prefHeight="27.0" prefWidth="318.0" />
+            <Label id="ansTextField2" layoutX="221.0" layoutY="457.0" text="Answer" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
