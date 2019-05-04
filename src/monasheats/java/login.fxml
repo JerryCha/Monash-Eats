@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="monasheats.java.LoginController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="400.0">
+               <children>
+                  <Label fx:id="loginLabel" layoutX="138.0" layoutY="62.0" text="Login" AnchorPane.bottomAnchor="194.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="168.0" AnchorPane.topAnchor="62.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label id="emailLabel" fx:id="emailLabel" layoutX="94.0" layoutY="137.0" text="Email" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="273.0" AnchorPane.topAnchor="137.0" />
+                  <Label id="pwdLabel" fx:id="pwdLabel" layoutX="65.0" layoutY="173.0" prefHeight="17.0" prefWidth="62.0" text="Password" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="273.0" AnchorPane.topAnchor="173.0" />
+                  <TextField id="emailField" fx:id="emailTextField" layoutX="141.0" layoutY="132.0" prefHeight="27.0" prefWidth="206.0" AnchorPane.bottomAnchor="141.0" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="132.0" />
+                  <PasswordField id="pwdField" fx:id="pwdTextField" layoutX="141.0" layoutY="168.0" prefHeight="27.0" prefWidth="206.0" AnchorPane.bottomAnchor="105.0" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="168.0" />
+                  <Button fx:id="loginButton" layoutX="280.0" layoutY="211.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="67.0" text="Login" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="211.0" />
+                  <Button id="guestButton" fx:id="guestButton" layoutX="185.0" layoutY="211.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Guest" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="185.0" AnchorPane.rightAnchor="148.0" AnchorPane.topAnchor="211.0" />
+                  <Button fx:id="registerButton" layoutX="78.0" layoutY="211.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="74.0" text="Register" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="248.0" AnchorPane.topAnchor="211.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
