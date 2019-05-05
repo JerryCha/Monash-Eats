@@ -43,12 +43,14 @@ public class LoginController {
     private void initialize() {
         loginButton.setOnAction(event -> {
             if (emailTextField.getText().trim().equals(""))
-                login(null);
+                login("田所浩二");
             else
                 login(emailTextField.getText());
         });
 
         guestButton.setOnAction(event -> main.gotoSearchRestaurant(null));
+
+        registerButton.setOnAction(event -> main.gotoRegister());
     }
 
     private void login(String username) {

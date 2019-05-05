@@ -49,10 +49,12 @@ public class RestaurantSearchController {
         if (user == null) {
             accountButton.setText("Guest");
             logoutOpt.setText("Login");
+            historyOrderMenuItem.setVisible(false);
         }
         else {
             accountButton.setText(this.user);
             logoutOpt.setText("Logout");
+            historyOrderMenuItem.setVisible(true);
         }
     }
 
@@ -68,6 +70,12 @@ public class RestaurantSearchController {
     private TableColumn<String, String> restaurantSurburbColumn;
     @FXML
     private MenuItem logoutOpt;
+    @FXML
+    private MenuItem historyOrderMenuItem;
+    @FXML
+    private MenuItem myRestaurantButton;
+    @FXML
+    private MenuItem manageCustomerButton;
 
     @FXML
     private void initialize() {
@@ -76,7 +84,7 @@ public class RestaurantSearchController {
         restaurantTable.setItems(restaurantList);
         restaurantTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (user != null)
-                main.gotoRestaurant(newValue);
+                main.gotoRestaurant(newValue, user);
             else
                 main.gotoLogin();
         });
@@ -95,5 +103,13 @@ public class RestaurantSearchController {
             else
                 main.gotoLogin();
         });
+
+        historyOrderMenuItem.setOnAction(event -> main.gotoHistoryOrder(user));
+
+        manageCustomerButton.setOnAction(event -> {
+            main.gotoCustomerManagement(user);
+        });
+
+        myRestaurantButton.setOnAction(event -> main.gotoRestaurantManagement(user));
     }
 }

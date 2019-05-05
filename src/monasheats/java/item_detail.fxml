@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" spacing="15.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="monasheats.java.ItemDetailController">
+   <children>
+      <Label fx:id="itemNameLabel" text="Item name">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="itemDescLabel" text="Item describtion. 1145141919810114514191981011451419198101145141919810114514191981011451419198101145141919810114514191981011451419198101145141919810114514191981011451419198101145141919810114514191981011451419198101145141919810" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="itemPriceLabel" text="Unit price" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
+         <children>
+            <Button fx:id="decreaseButton" mnemonicParsing="false" text="-" />
+            <TextField fx:id="qtyTextField" alignment="CENTER" text="1" HBox.hgrow="NEVER" />
+            <Button fx:id="increaseButton" mnemonicParsing="false" text="+" />
+         </children>
+      </HBox>
+      <Button fx:id="addCartButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Add to cart" VBox.vgrow="NEVER" />
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</VBox>

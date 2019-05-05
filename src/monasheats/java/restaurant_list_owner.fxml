@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="monasheats.java.RestaurantSearchController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="monasheats.java.RestaurantManagementController">
    <children>
       <GridPane>
          <children>
@@ -31,7 +31,6 @@
                <items>
                   <MenuItem fx:id="historyOrderMenuItem" mnemonicParsing="false" text="My Order" />
                   <MenuItem fx:id="manageCustomerButton" mnemonicParsing="false" text="Manage Customer" />
-                  <MenuItem fx:id="myRestaurantButton" mnemonicParsing="false" text="My Restaurant" />
                   <MenuItem fx:id="logoutOpt" mnemonicParsing="false" text="Logout" />
                </items>
             </MenuButton>
