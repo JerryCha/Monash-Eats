@@ -1,6 +1,7 @@
 package monasheats.java;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -63,7 +64,19 @@ public class ItemDetailController {
         itemPriceLabel.setText("$1.14");
 
         addCartButton.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Added successfully");
+            alert.setContentText(item + "x" + itemQty + " has been added to your cart");
+            alert.showAndWait();
             stage.close();
         });
+
+        // Restrict phoneTextField to number only.
+        qtyTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue.matches("\\d*") == false)
+                qtyTextField.setText(newValue.replaceAll("\\D*", ""));
+
+            itemQty = Integer.parseInt(newValue);
+        }));
     }
 }

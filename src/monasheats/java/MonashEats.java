@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class MonashEats extends Application {
 
     private Stage stage;
 
@@ -24,7 +24,7 @@ public class Main extends Application {
         stage.show();
 
         Controller mainController = loader.getController();
-        mainController.setMain(this);
+        mainController.setMonashEats(this);
     }
 
     public Stage getStage() {
@@ -43,7 +43,7 @@ public class Main extends Application {
            stage.setScene(new Scene(loader.load()));
 
            LoginController loginController = loader.getController();
-           loginController.setMain(this);
+           loginController.setMonashEats(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,13 +59,13 @@ public class Main extends Application {
 
             RestaurantSearchController restaurantSearchController = loader.getController();
             restaurantSearchController.setUser(username);
-            restaurantSearchController.setMain(this);
+            restaurantSearchController.setMonashEats(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void gotoRestaurant(String restaurant, String user) {
+    public void gotoRestaurant(String restaurant, String user, Scene currentScene) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("restaurant.fxml"));
@@ -76,45 +76,48 @@ public class Main extends Application {
             RestaurantController restaurantController = loader.getController();
             restaurantController.setRestaurant(restaurant);
             restaurantController.setUser(user);
-            restaurantController.setMain(this);
+            restaurantController.setMonashEats(this);
+            restaurantController.setPreviousScene(currentScene);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void gotoCart(String user) {
+    public void gotoCart(String user, Scene currentScene) {
         CartController cartController = sceneLoader("cart.fxml").getController();
-        cartController.setMain(this);
+        cartController.setMonashEats(this);
         cartController.setUser(user);
+        cartController.setPreviousScene(currentScene);
     }
 
-    public void gotoCheckOut(String user) {
+    public void gotoCheckOut(String user, Scene currentScene) {
         CheckOutController checkOutController = sceneLoader("confirm_order.fxml").getController();
-        checkOutController.setMain(this);
+        checkOutController.setMonashEats(this);
         checkOutController.setUser(user);
+        checkOutController.setPreviousScene(currentScene);
     }
 
     // Temporary
     public void gotoHistoryOrder(String user) {
         OrderViewController orderViewController = sceneLoader("view_past_order.fxml").getController();
-        orderViewController.setMain(this);
+        orderViewController.setMonashEats(this);
         orderViewController.setUser(user);
     }
 
     public void gotoRegister() {
         RegisterController registerController = sceneLoader("register.fxml").getController();
-        registerController.setMain(this);
+        registerController.setMonashEats(this);
     }
 
     public void gotoCustomerManagement(String user) {
         CustomerManagementController cstmManageController = sceneLoader("user_manage.fxml").getController();
-        cstmManageController.setMain(this);
+        cstmManageController.setMonashEats(this);
         cstmManageController.setUser(user);
     }
 
     public void gotoRestaurantManagement(String user) {
         RestaurantManagementController rtrMngmController = sceneLoader("restaurant_list_owner.fxml").getController();
-        rtrMngmController.setMain(this);
+        rtrMngmController.setMonashEats(this);
         rtrMngmController.setUser(user);
     }
 

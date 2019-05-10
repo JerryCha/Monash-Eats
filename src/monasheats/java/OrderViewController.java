@@ -7,7 +7,7 @@ import javafx.scene.control.MenuItem;
 public class OrderViewController {
 
     private String user;
-    private Main main;
+    private MonashEats monashEats;
 
     public OrderViewController() {}
 
@@ -16,19 +16,26 @@ public class OrderViewController {
         accountButton.setText(user);
     }
 
-    public void setMain(Main main) {
-        this.main = main;
+    public void setMonashEats(MonashEats monashEats) {
+        this.monashEats = monashEats;
     }
 
     @FXML
     private MenuButton accountButton;
     @FXML
-    private MenuItem historyOrderMenuItem;
+    private MenuItem homepageButton;
     @FXML
     private MenuItem logoutOpt;
 
     @FXML
     private void initialize() {
 
+        // Temporary button going to homepage
+        homepageButton.setOnAction(event -> monashEats.gotoSearchRestaurant(user));
+
+        logoutOpt.setOnAction(event -> {
+            user = null;
+            monashEats.gotoLogin();
+        });
     }
 }

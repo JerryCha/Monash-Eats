@@ -73,7 +73,7 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="cancelButtol" mnemonicParsing="false" text="Cancel">
+            <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel">
                <HBox.margin>
                   <Insets bottom="15.0" left="15.0" top="15.0" />
                </HBox.margin>
@@ -105,7 +105,7 @@
             </Label>
             <HBox>
                <children>
-                  <TextField promptText="Coupon code" />
+                  <TextField fx:id="couponTextField" promptText="Coupon code" />
                   <Button fx:id="couponApplyButton" mnemonicParsing="false" text="Apply" />
                </children>
                <VBox.margin>

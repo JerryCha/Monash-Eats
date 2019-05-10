@@ -4,7 +4,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -52,8 +54,20 @@ public class RestaurantDetailController {
         });
 
         submitButton.setOnAction(event -> {
+            // Debug print.
             System.out.println("Submit pressed @ Restaurant Detail");
-            stage.close();
+
+            // TODO: Pass edited restaurant to backend.
+
+            // Indicate success once received the success message.
+            if (true) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setContentText("Your modification has been successfully saved.");
+                alert.showAndWait();
+                stage.close();
+            }
+
         });
 
         editCouponButton.setOnAction(event -> {

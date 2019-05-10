@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class RestaurantManagementController {
 
-    private Main main;
+    private MonashEats monashEats;
     private String user;
 
     public RestaurantManagementController() {
@@ -25,17 +25,28 @@ public class RestaurantManagementController {
         this.user = user;
     }
 
-    public void setMain(Main main) {
-        this.main = main;
+    public void setMonashEats(MonashEats monashEats) {
+        this.monashEats = monashEats;
     }
 
     private ObservableList<String> myRestaurants = FXCollections.observableArrayList();
 
     private void addSampleData() {
-        myRestaurants.add("林檎风味");
-        myRestaurants.add("香蕉风味");
-        myRestaurants.add("滨滨风味");
-        myRestaurants.add("下北泽Co↑co↓");
+        myRestaurants.add("Restaurant A");
+        myRestaurants.add("Restaurant B");
+        myRestaurants.add("Restaurant C");
+        myRestaurants.add("Restaurant D");
+        myRestaurants.add("Restaurant E");
+        myRestaurants.add("Restaurant F");
+        myRestaurants.add("Restaurant G");
+        myRestaurants.add("Restaurant H");
+        myRestaurants.add("Restaurant I");
+        myRestaurants.add("Restaurant J");
+        myRestaurants.add("Restaurant K");
+        myRestaurants.add("Restaurant L");
+        myRestaurants.add("Restaurant M");
+        myRestaurants.add("Restaurant N");
+        myRestaurants.add("Restaurant O");
     }
 
     @FXML
@@ -66,16 +77,16 @@ public class RestaurantManagementController {
         restaurantNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
 
         manageCustomerButton.setOnAction(event -> {
-            main.gotoCustomerManagement(user);
+            monashEats.gotoCustomerManagement(user);
         });
 
         logoutOpt.setOnAction(event -> {
             user = null;
-            main.gotoSearchRestaurant(user);
+            monashEats.gotoSearchRestaurant(user);
         });
 
         historyOrderMenuItem.setOnAction(event -> {
-            main.gotoHistoryOrder(user);
+            monashEats.gotoHistoryOrder(user);
         });
     }
 
@@ -90,8 +101,8 @@ public class RestaurantManagementController {
 
             Stage stage = new Stage();
             stage.setTitle(restaurant);
-            stage.setX(main.getStage().getX()+150);
-            stage.setY(main.getStage().getY()+150);
+            stage.setX(monashEats.getStage().getX()+150);
+            stage.setY(monashEats.getStage().getY()+150);
             rstDetailController.setStage(stage);
             stage.setScene(new Scene(parent));
             stage.show();

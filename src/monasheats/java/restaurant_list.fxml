@@ -48,7 +48,8 @@
       <TableView fx:id="restaurantTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
         <columns>
           <TableColumn fx:id="restaurantNameColumn" prefWidth="517.0" text="Restaurant" />
-          <TableColumn fx:id="restaurantSurburbColumn" minWidth="0.0" prefWidth="81.0" text="Surburb" />
+          <TableColumn fx:id="restaurantSurburbColumn" minWidth="0.0" prefWidth="113.0" text="Surburb" />
+            <TableColumn fx:id="restaurantRateColumn" prefWidth="79.0" text="Rate" />
         </columns>
       </TableView>
    </children>

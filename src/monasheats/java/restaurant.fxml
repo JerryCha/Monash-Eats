@@ -100,7 +100,7 @@
             </Label>
             <TableView fx:id="couponTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <columns>
-                  <TableColumn fx:id="couponTableView" maxWidth="1.7976931348623157E308" prefWidth="60.0" text="Code" />
+                  <TableColumn fx:id="couponCodeColumn" maxWidth="1.7976931348623157E308" prefWidth="60.0" text="Code" />
                </columns>
                <VBox.margin>
                   <Insets left="15.0" right="15.0" />
@@ -110,12 +110,13 @@
       </VBox>
       <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" spacing="15.0" GridPane.rowIndex="1">
          <children>
+            <Button fx:id="backButton" mnemonicParsing="false" text="Back" />
             <Label fx:id="restaurantLabel" alignment="CENTER_RIGHT" text="Restaurant name" textAlignment="RIGHT" wrapText="true">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label text="Something to fill" />
+            <Label fx:id="rateLabel" text="Rate: (TO BE PASSED)" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -124,6 +125,5 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </GridPane.margin>
       </VBox>
-      <Button fx:id="testButton" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
    </children>
 </GridPane>

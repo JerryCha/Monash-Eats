@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -16,7 +17,7 @@ import java.io.IOException;
 
 public class CustomerManagementController {
 
-    private Main main;
+    private MonashEats monashEats;
 
     private String user;
 
@@ -24,8 +25,8 @@ public class CustomerManagementController {
 
     }
 
-    public void setMain(Main main) {
-        this.main = main;
+    public void setMonashEats(MonashEats monashEats) {
+        this.monashEats = monashEats;
     }
 
     public void setUser(String user) {
@@ -36,26 +37,40 @@ public class CustomerManagementController {
     private ObservableList<String> customerList = FXCollections.observableArrayList();
 
     private void addSampleData() {
-        customerList.add("李田所");
-        customerList.add("田所浩二");
-        customerList.add("远野");
-        customerList.add("TNOK");
-        customerList.add("中田");
-        customerList.add("Billy Herrington");
-        customerList.add("VAN");
-        customerList.add("蔡徐坤");
-        customerList.add("孙笑川");
-        customerList.add("卢本伟");
-        customerList.add("梁非凡");
-        customerList.add("刘醒");
-        customerList.add("王境泽");
-        customerList.add("草彅刚");
-        customerList.add("徐逸");
-        customerList.add("陈睿");
+        customerList.add("aaaaa");
+        customerList.add("bbbb");
+        customerList.add("cccc");
+        customerList.add("ddddd");
+        customerList.add("eeeee");
+        customerList.add("fffffff");
+        customerList.add("ggggggg");
+        customerList.add("hhhhh");
+        customerList.add("iiiiiii");
+        customerList.add("jjjjjjjjjj");
+        customerList.add("kkkkkkkkkkk");
+        customerList.add("lllllllllll");
+        customerList.add("mmmmmmmmmmmm");
+        customerList.add("nnnnnnnnn");
+        customerList.add("ooooooo");
+        customerList.add("ppppppp");
+        customerList.add("qqqqqqqqq");
+        customerList.add("uuuuuuuuuuuu");
+        customerList.add("vvvvvvvvvvvvvvvv");
+        customerList.add("wwwwwww");
+        customerList.add("xxxxxxx");
+        customerList.add("yyyyyy");
+        customerList.add("zzzzzzzz");
+        customerList.add("rrrrrrrrrr");
+        customerList.add("ssssssss");
+        customerList.add("ttttttttt");
     }
 
     @FXML
     private MenuButton accountButton;
+    @FXML
+    private MenuItem myRestaurantButton;
+    @FXML
+    private MenuItem logoutOpt;
 
     @FXML
     private TableView<String> customerTableView;
@@ -77,7 +92,18 @@ public class CustomerManagementController {
             popupCustomerDetail((String)newValue);
         }));
 
+        accountTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
         nameTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        surburbTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        phoneTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+
+        // Set MenuButton and sub-buttons action
+        // TODO: Determine visibility based on user role.
+        myRestaurantButton.setOnAction(event -> monashEats.gotoRestaurantManagement(user));
+        logoutOpt.setOnAction(event -> {
+            user = null;
+            monashEats.gotoLogin();
+        });
     }
 
     private void popupCustomerDetail(String account) {

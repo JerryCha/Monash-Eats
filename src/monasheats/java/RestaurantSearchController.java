@@ -6,9 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.Optional;
+
 public class RestaurantSearchController {
 
-    private Main main;
+    private MonashEats monashEats;
 
     private String user;
 
@@ -39,8 +41,8 @@ public class RestaurantSearchController {
 
     }
 
-    public void setMain(Main main) {
-        this.main = main;
+    public void setMonashEats(MonashEats monashEats) {
+        this.monashEats = monashEats;
     }
 
     public void setUser(String user) {
@@ -69,6 +71,8 @@ public class RestaurantSearchController {
     @FXML
     private TableColumn<String, String> restaurantSurburbColumn;
     @FXML
+    private TableColumn<String, String> restaurantRateColumn;
+    @FXML
     private MenuItem logoutOpt;
     @FXML
     private MenuItem historyOrderMenuItem;
@@ -84,32 +88,39 @@ public class RestaurantSearchController {
         restaurantTable.setItems(restaurantList);
         restaurantTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (user != null)
-                main.gotoRestaurant(newValue, user);
-            else
-                main.gotoLogin();
+                monashEats.gotoRestaurant(newValue, user, monashEats.getStage().getScene());
+            else {
+                Alert loginAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                loginAlert.setTitle("Login required");
+                loginAlert.setContentText("Only registered could access restaurant. Do you want to continue by logging in?");
+                Optional<ButtonType> result = loginAlert.showAndWait();
+                if (result.get() == ButtonType.OK)
+                    monashEats.gotoLogin();
+            }
         });
 
         restaurantNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
         restaurantSurburbColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        restaurantRateColumn.setCellValueFactory(data -> new SimpleStringProperty("★" + String.format("%1$,.2f", Math.random()*5)));
 
         accountButton.setOnAction(event -> {
             if (user == null)
-                main.gotoLogin();
+                monashEats.gotoLogin();
         });
 
         logoutOpt.setOnAction(event -> {
             if (user != null)
                 setUser(null);
             else
-                main.gotoLogin();
+                monashEats.gotoLogin();
         });
 
-        historyOrderMenuItem.setOnAction(event -> main.gotoHistoryOrder(user));
+        historyOrderMenuItem.setOnAction(event -> monashEats.gotoHistoryOrder(user));
 
         manageCustomerButton.setOnAction(event -> {
-            main.gotoCustomerManagement(user);
+            monashEats.gotoCustomerManagement(user);
         });
 
-        myRestaurantButton.setOnAction(event -> main.gotoRestaurantManagement(user));
+        myRestaurantButton.setOnAction(event -> monashEats.gotoRestaurantManagement(user));
     }
 }

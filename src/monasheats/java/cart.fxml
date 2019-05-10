@@ -9,8 +9,13 @@
 
 <GridPane alignment="CENTER" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="monasheats.java.CartController">
    <children>
-      <HBox alignment="CENTER_RIGHT" prefHeight="139.0" prefWidth="800.0" GridPane.rowIndex="2">
+      <HBox alignment="CENTER_RIGHT" prefHeight="139.0" prefWidth="800.0" spacing="10.0" GridPane.rowIndex="2">
          <children>
+            <Button fx:id="backButton" mnemonicParsing="false" text="Back to restaurant">
+               <padding>
+                  <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+               </padding>
+            </Button>
             <Button fx:id="cartEditButton" mnemonicParsing="false" text="Edit">
                <padding>
                   <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
@@ -20,9 +25,6 @@
                <font>
                   <Font size="36.0" />
                </font>
-               <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </padding>
                <HBox.margin>
                   <Insets />
                </HBox.margin>

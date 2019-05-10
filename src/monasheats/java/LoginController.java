@@ -1,18 +1,16 @@
 package monasheats.java;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 
 public class LoginController {
 
-    // Reference to main
-    private Main main;
+    // Reference to monashEats
+    private MonashEats monashEats;
 
-    public void setMain(Main main) {
-        this.main = main;
+    public void setMonashEats(MonashEats monashEats) {
+        this.monashEats = monashEats;
     }
     /**
      * Constructor
@@ -41,19 +39,42 @@ public class LoginController {
 
     @FXML
     private void initialize() {
-        loginButton.setOnAction(event -> {
-            if (emailTextField.getText().trim().equals(""))
-                login("田所浩二");
-            else
-                login(emailTextField.getText());
+        // Temporary hint
+        emailTextField.setPromptText("Currently, only \"abc\" with pwd \"123\" could login.");
+
+        loginButton.setOnAction(event -> login());
+
+        // Press 'ENTER' to login
+        loginButton.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                login();
+        });
+        emailTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                login();
+        });
+        pwdTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                login();
         });
 
-        guestButton.setOnAction(event -> main.gotoSearchRestaurant(null));
+        guestButton.setOnAction(event -> monashEats.gotoSearchRestaurant(null));
 
-        registerButton.setOnAction(event -> main.gotoRegister());
+        registerButton.setOnAction(event -> monashEats.gotoRegister());
     }
 
-    private void login(String username) {
-        main.gotoSearchRestaurant(username);
+    private void login() {
+        String account = emailTextField.getText().trim();
+        // TODO: Replace with formal login workflow after backend implemented
+        if (!account.equals("abc") && !pwdTextField.getText().equals("123")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Authorization failed");
+            alert.setContentText("Your credential is correct");
+            alert.showAndWait();
+            emailTextField.setText("");
+            pwdTextField.setText("");
+        } else {
+            monashEats.gotoSearchRestaurant(account);
+        }
     }
 }

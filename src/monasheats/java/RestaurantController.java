@@ -3,8 +3,6 @@ package monasheats.java;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +14,9 @@ import java.io.IOException;
 
 public class RestaurantController {
 
-    private Main main;
+    private MonashEats monashEats;
+
+    private Scene previousScene;
 
     private String restaurant;
 
@@ -26,8 +26,8 @@ public class RestaurantController {
 
     }
 
-    public void setMain(Main main) {
-        this.main = main;
+    public void setMonashEats(MonashEats monashEats) {
+        this.monashEats = monashEats;
     }
 
     public void setRestaurant(String restaurant) {
@@ -42,31 +42,57 @@ public class RestaurantController {
         accountButton.setText(user);
     }
 
-    private ObservableList<String> itemList = FXCollections.observableArrayList();
-
-    private void addSampleData() {
-        itemList.add("林檎1");
-        itemList.add("林檎2");
-        itemList.add("林檎3");
-        itemList.add("林檎4");
-        itemList.add("香蕉1");
-        itemList.add("香蕉2");
-        itemList.add("香蕉3");
-        itemList.add("香蕉4");
+    public void setPreviousScene(Scene previousScene) {
+        this.previousScene = previousScene;
     }
 
-    // Tableview and its corresponding columns
+    private ObservableList<String> itemList = FXCollections.observableArrayList();
+    private ObservableList<String> couponList = FXCollections.observableArrayList();
+
+    // Demo purpose. Remove after backend implemented.
+    private void addSampleRestaurant() {
+        itemList.add("Sandwich");
+        itemList.add("Apple");
+        itemList.add("Banana");
+        itemList.add("Tender");
+        itemList.add("Cheese burger");
+        itemList.add("Tuna sushi roll");
+        itemList.add("Nihhon go");
+        itemList.add("∑œ˙ß∫∂¬ƒ˙œ∑∂ƒ¬˚∑œÏ");
+        itemList.add("ª•¡™¶¥©ßƒ∂∫eau¬∫ƒß");
+    }
+
+    // Demo purpose. Remove after backend implemented.
+    private void addSampleCoupon() {
+        couponList.add("114514");
+        couponList.add("1919810");
+        couponList.add("yarimasune");
+        couponList.add("goodday");
+        couponList.add("BeautyChick");
+    }
+
+    // TableView of menu and its corresponding columns
     @FXML
-    private TableView itemTableView;
+    private TableView<String> itemTableView;
     @FXML
     private TableColumn<String, String> itemNameColumn;
     @FXML
     private TableColumn<String, String> itemDescColumn;
     @FXML
     private TableColumn<String, String> itemPriceColumn;
+
+    // TableView of coupon and its corresponding columns
+    @FXML
+    private TableView<String> couponTableView;
+    @FXML
+    private TableColumn<String, String> couponCodeColumn;
+
     // View cart button
     @FXML
     private Button cartButton;
+    @FXML
+    private Button backButton;
+
     @FXML
     private MenuButton accountButton;
     @FXML
@@ -79,8 +105,10 @@ public class RestaurantController {
 
     @FXML
     private void initialize() {
-        addSampleData();
+        addSampleRestaurant();
+        addSampleCoupon();
 
+        // Bind menu to components
         itemTableView.setItems(itemList);
         itemTableView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> popupItemWindow((String) newValue)));
 
@@ -88,14 +116,19 @@ public class RestaurantController {
         itemDescColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
         itemPriceColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
 
-        cartButton.setOnAction(event -> main.gotoCart(user));
+        // Bind coupon to components
+        couponTableView.setItems(couponList);
+        couponCodeColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        // TODO: Copy coupon code to clipboard by clicking
 
-        myRestaurantButton.setOnAction(event -> main.gotoRestaurantManagement(user));
-        manageCustomerButton.setOnAction(event -> main.gotoCustomerManagement(user));
+        cartButton.setOnAction(event -> monashEats.gotoCart(user, monashEats.getStage().getScene()));
+        backButton.setOnAction(event -> {
+            monashEats.getStage().setScene(previousScene);
+        });
+
+        myRestaurantButton.setOnAction(event -> monashEats.gotoRestaurantManagement(user));
+        manageCustomerButton.setOnAction(event -> monashEats.gotoCustomerManagement(user));
     }
-
-    @FXML
-    private Button testButton;
 
     private void popupItemWindow(String item) {
         try {

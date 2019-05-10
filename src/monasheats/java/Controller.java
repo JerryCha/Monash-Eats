@@ -6,15 +6,15 @@ import javafx.scene.control.Label;
 
 public class Controller {
 
-    // Reference to main application
-    private Main main;
+    // Reference to monashEats application
+    private MonashEats monashEats;
 
     /**
-     * Set reference of main.
-     * @param main Main instance.
+     * Set reference of monashEats.
+     * @param monashEats MonashEats instance.
      */
-    public void setMain(Main main) {
-        this.main = main;
+    public void setMonashEats(MonashEats monashEats) {
+        this.monashEats = monashEats;
     }
     /**
      * Constructor
@@ -33,8 +33,8 @@ public class Controller {
 
     @FXML
     private void initialize() {
-        loginButton.setOnAction(event -> main.gotoLogin());
-        guestButton.setOnAction(event -> main.gotoSearchRestaurant(null));
+        loginButton.setOnAction(event -> monashEats.gotoLogin());
+        guestButton.setOnAction(event -> monashEats.gotoSearchRestaurant(null));
     }
 
 }

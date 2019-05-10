@@ -126,7 +126,7 @@
             </HBox>
             <MenuButton id="accountButton" fx:id="accountButton" alignment="CENTER" mnemonicParsing="false" prefHeight="32.0" prefWidth="122.0" text="username" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                <items>
-                  <MenuItem fx:id="historyOrderMenuItem" mnemonicParsing="false" text="My Order" />
+                  <MenuItem fx:id="homepageButton" mnemonicParsing="false" text="(Temp)Homepage" />
                   <MenuItem fx:id="logoutOpt" mnemonicParsing="false" text="Logout" />
                </items>
                <GridPane.margin>
