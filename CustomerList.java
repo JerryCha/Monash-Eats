@@ -99,7 +99,7 @@ public class CustomerList implements SearchableAccountList {
         if (actInfo.containsKey("secureQuestion")) {
             String[] qaPair = actInfo.get("secureQuestion").trim().split(";");
             for (String qa : qaPair) {
-                String[] qaArray = qa.split(",");
+                String[] qaArray = qa.split("-");
 
                 if (qaArray.length != 2)    // Validate whether it is a pair
                     continue;

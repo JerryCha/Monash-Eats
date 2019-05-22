@@ -105,9 +105,11 @@ public class Cart {
         map.put("resId", Integer.toString(resId));
         StringBuffer buffer = new StringBuffer();
         for (PurchaseItem item : itemList) {
-            buffer.append(item.toHashMap());
+            buffer.append(item.toString());
             buffer.append(';');
         }
+        map.put("items", buffer.toString());
+        map.put("totalPrice", Double.toString(getTotalPrice()));
 
         return map;
     }

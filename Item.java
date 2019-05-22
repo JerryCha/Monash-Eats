@@ -64,13 +64,13 @@ public class Item {
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append(itemId);
-        buffer.append(',');
+        buffer.append('-');
         buffer.append(itemName);
-        buffer.append(',');
+        buffer.append('-');
         buffer.append(itemDesc);
-        buffer.append(',');
+        buffer.append('-');
         buffer.append(unitPrice);
-        buffer.append(',');
+        buffer.append('-');
         return buffer.toString();
     }
 }

@@ -25,7 +25,7 @@ public class OrderController {
         }
 
         // Check amount restriction
-        if (!isWithinAmout(cusId, 0, 100))
+        if (!isWithinAmount(cusId, 0, 100))
             return false;
 
         // Calculate discounted price if couple applied
@@ -103,7 +103,7 @@ public class OrderController {
     }
 
     // Call before placing order, verifying whether total price without coupon over $100.
-    public boolean isWithinAmout(int cusId, double lowerBound, double upperBound) {
+    public boolean isWithinAmount(int cusId, double lowerBound, double upperBound) {
         double price = orderList.getCart(cusId).getTotalPrice();
         if (price > upperBound || price < lowerBound)
             return false;
