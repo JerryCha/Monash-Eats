@@ -1,5 +1,3 @@
-package monasheats.java;
-
 import java.util.HashMap;
 
 public interface SearchableAccountList {

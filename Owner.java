@@ -1,5 +1,3 @@
-package monasheats.java;
-
 public class Owner extends Account {
 
     // Status of being verified by admin.
