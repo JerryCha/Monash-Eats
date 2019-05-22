@@ -4,13 +4,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.HashMap;
 
-public class AccountService {
+public class AccountController {
 
     private CustomerList customerList;
     private OwnerList ownerList;
     private AdminList adminList;
 
-    public AccountService() {
+    public AccountController() {
         customerList = new CustomerList();
         ownerList = new OwnerList();
         adminList = new AdminList();
@@ -19,7 +19,6 @@ public class AccountService {
     // -1: not found; -2: error; -3: credential incorrect
     public int authenticate(String email, String pwd, int role) {
         String pwdHash = getSHA256String(pwd);
-        HashMap<String, String> actInfo;
 
         if (pwdHash == null)
             return -2;  // Error happened
@@ -31,7 +30,7 @@ public class AccountService {
         } else if (role == 2) {
             if (ownerList.getByEmail(email) != null && ownerList.getByEmail(email).getPwdHash().equals(pwdHash))
                 return ownerList.getByEmail(email).getId();
-        } else {
+        } else if (role == 3) {
             if (adminList.getByEmail(email) != null && adminList.getByEmail(email).getPwdHash().equals(pwdHash))
                 return adminList.getByEmail(email).getId();
         }
@@ -49,7 +48,7 @@ public class AccountService {
             return false;
 
         // Role identify code: customer, owner: 01(owner), 10(customer), 11(customer&owner)
-        if (actInfo.containsKey("roleCode"))
+        if (!actInfo.containsKey("roleCode"))
             return false;
         else {
             // Get roleCode
@@ -69,18 +68,19 @@ public class AccountService {
                         throw new Exception("Phone format incorrect");
             }
 
-
-
             boolean[] results = {false, false};
             // Customer == true
             if (code[0] == '1')
                 results[0] = customerList.create(actInfo);
+            else
+                results[0] = true;
             // Owner == true
-            if (code[1] == '1') {
+            if (code[1] == '1')
                 results[1] = ownerList.create(actInfo);
-            }
+            else
+                results[1] = true;
 
-            return results[0]&results[1];
+            return results[0]&&results[1];
         }
     }
 
