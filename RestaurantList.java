@@ -6,7 +6,8 @@ public class RestaurantList {
     private ArrayList<Restaurant> restaurantList;
 
     public RestaurantList() {
-
+        restaurantList = new ArrayList<>();
+        initialize();
     }
 
     public ArrayList<Restaurant> getRestaurantList() {
@@ -19,7 +20,7 @@ public class RestaurantList {
 
     public Restaurant getRestaurant(int resId) {
         for (Restaurant res : restaurantList)
-            if (res.getId() == resId)
+            if (res.getResId() == resId)
                 return res;
 
         return null;
@@ -31,7 +32,7 @@ public class RestaurantList {
 
     public boolean delRestaurant(int resId) {
         for (Restaurant res : restaurantList)
-            if (res.getId() == resId) {
+            if (res.getResId() == resId) {
                 restaurantList.remove(res);
                 return true;
             }

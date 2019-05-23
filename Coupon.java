@@ -61,4 +61,20 @@ public class Coupon {
     public void setAppliedItemId(ArrayList<Integer> appliedItemId) {
         this.appliedItemId = appliedItemId;
     }
+
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(couponCode);
+        buffer.append("-");
+        buffer.append(couponDesc);
+        buffer.append("-");
+        buffer.append("expireDate");
+        buffer.append("-");
+        buffer.append(operator);
+        buffer.append("-");
+        buffer.append(value);
+        buffer.append("-");
+
+        return buffer.toString();
+    }
 }

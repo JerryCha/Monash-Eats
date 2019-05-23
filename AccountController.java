@@ -1,6 +1,7 @@
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ public class AccountController {
         String pwdHash = getSHA256String(pwd);
 
         if (pwdHash == null)
-            return -2;  // Error happened
+            return -1;  // Error happened
 
         if (role == 1) {
             if (customerList.getByEmail(email) != null && customerList.getByEmail(email).getPwdHash().equals(pwdHash))
@@ -35,7 +36,7 @@ public class AccountController {
                 return adminList.getByEmail(email).getId();
         }
 
-        return -3;
+        return -1;
     }
 
     /**
@@ -56,6 +57,12 @@ public class AccountController {
 
             if (code.length != 2)
                 return false;   // incorrect code format.
+
+            // Convert pwd to pwdHash
+            if (actInfo.containsKey("pwd")) {
+                actInfo.put("pwdHash", getSHA256String(actInfo.get("pwd")));
+                actInfo.remove("pwd");
+            }
 
             // Phone validation
             if (actInfo.containsKey("phone")) {
@@ -95,7 +102,7 @@ public class AccountController {
         }
     }
 
-    public boolean delAccount(int loginId, int roleCode, int actRole, int[] actIdList) {
+    public boolean delAccount(int loginId, int roleCode, int actRole, int actId) {
         // Not admin
         if (roleCode != 3)
             return false;
@@ -107,7 +114,7 @@ public class AccountController {
         if (actRole == 1) {
 
         } else if (actRole == 2) {
-
+            
         }
 
         return true;
@@ -135,5 +142,17 @@ public class AccountController {
                 return false;
 
         return true;
+    }
+
+    public ArrayList<HashMap<String, String>> getAccountList(int actType) {
+        if (actType == 1) {
+
+        } else if (actType == 2) {
+            return ownerList.getList();
+        } else if (actType == 3) {
+
+        }
+
+        return null;
     }
 }

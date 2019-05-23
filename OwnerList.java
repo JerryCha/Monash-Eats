@@ -7,10 +7,14 @@ public class OwnerList implements SearchableAccountList{
 
     public OwnerList() {
         ownerList = new ArrayList<>();
+        initialize();
     }
 
-    public Owner[] getList() {
-        return (Owner[]) ownerList.toArray();
+    public ArrayList<HashMap<String, String>> getList() {
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+        for (Owner owner : ownerList)
+            list.add(owner.toHashMap());
+        return list;
     }
 
     public Owner get(int index) {
@@ -47,9 +51,14 @@ public class OwnerList implements SearchableAccountList{
         return ownerList.add(newOwner);
     }
 
-    public boolean del(int index) {
-        ownerList.remove(index);
-        return true;
+    public boolean del(int ownerId) {
+        for (int i = 0; i < ownerList.size(); i++)
+            if (ownerList.get(i).getId() == ownerId) {
+                ownerList.remove(i);
+                return true;
+            }
+            
+        return false;
     }
 
     public int has(String email) {
@@ -86,8 +95,8 @@ public class OwnerList implements SearchableAccountList{
         // Unpack information wrap.
         if (actInfo.containsKey("email"))
             email = actInfo.get("email");
-        if (actInfo.containsKey("pwd"))
-            pwdHash = actInfo.get("pwd");
+        if (actInfo.containsKey("pwdHash"))
+            pwdHash = actInfo.get("pwdHash");
         if (actInfo.containsKey("name"))
             name = actInfo.get("name");
         if (actInfo.containsKey("street"))
@@ -123,7 +132,12 @@ public class OwnerList implements SearchableAccountList{
         newOwner.setPhone(phone);
         newOwner.setSecureQuestions(secureQuestion);
         newOwner.setVerified(false);
+        newOwner.setId(ownerList.size()+1);
 
         return ownerList.add(newOwner);
+    }
+
+    public boolean initialize() {
+        return true;
     }
 }

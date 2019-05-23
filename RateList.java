@@ -12,8 +12,22 @@ public class RateList {
                 return resRateList;
         }
 
-        public RestaurantRate getRestaurantRate(int index){
-                return resRateList.get(index);
+        public ArrayList<RestaurantRate> getRestaurantRate(int resId){
+                ArrayList<RestaurantRate> results = new ArrayList<>();
+                for (RestaurantRate rate : resRateList)
+                        if (rate.getResId() == resId)
+                                results.add(rate);
+
+                return results;
+        }
+
+        public ArrayList<Integer> getRestaurantRateValue(int resId) {
+                ArrayList<Integer> results = new ArrayList<>();
+                for (RestaurantRate rate : resRateList)
+                        if (rate.getResId() == resId)
+                                results.add(rate.getRateVale());
+
+                return results;
         }
         public ArrayList<ItemRate> getitemRate(int index){
                 return itemRateList;

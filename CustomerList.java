@@ -86,8 +86,8 @@ public class CustomerList implements SearchableAccountList {
         // Unpack information wrap.
         if (actInfo.containsKey("email"))
             email = actInfo.get("email");
-        if (actInfo.containsKey("pwd"))
-            pwdHash = actInfo.get("pwd");
+        if (actInfo.containsKey("pwdHash"))
+            pwdHash = actInfo.get("pwdHash");
         if (actInfo.containsKey("name"))
             name = actInfo.get("name");
         if (actInfo.containsKey("street"))
@@ -122,6 +122,7 @@ public class CustomerList implements SearchableAccountList {
         newCustomer.setSurburb(surburb);
         newCustomer.setPhone(phone);
         newCustomer.setSecureQuestions(secureQuestion);
+        newCustomer.setId(customerList.size()+1);
 
         return customerList.add(newCustomer);
     }
