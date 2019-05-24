@@ -12,9 +12,19 @@ public class CustomerList {
 
     private static ArrayList<Customer> customerList = new ArrayList<>();
     private static CustomerList instance = new CustomerList();
+    private static int maxId;
     
     private CustomerList() {
         initialize();
+        maxId = 0;
+        for (Customer cus : customerList)
+            if (cus.getId() > maxId)
+                maxId = cus.getId();
+    }
+
+    private static int nextId() {
+        maxId += 1;
+        return maxId;
     }
     
     public static CustomerList getInstance() {
@@ -138,7 +148,7 @@ public class CustomerList {
         newCustomer.setSurburb(surburb);
         newCustomer.setPhone(phone);
         newCustomer.setSecureQuestions(secureQuestion);
-        newCustomer.setId(customerList.size()+1);
+        newCustomer.setId(nextId());
 
         return customerList.add(newCustomer);
     }

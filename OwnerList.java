@@ -12,13 +12,23 @@ public class OwnerList{
 
     private static ArrayList<Owner> ownerList = new ArrayList<>();
     private static OwnerList instance = new OwnerList();
+    private static int maxId;
 
     private OwnerList() {
         initialize();
+        maxId = 0;
+        for (Owner owner : ownerList) 
+            if (maxId < owner.getId())
+                maxId = owner.getId();
     }
     
     public static OwnerList getInstance() {
         return instance;
+    }
+
+    public static int nextId() {
+        maxId += 1;
+        return maxId;
     }
 
     public ArrayList<HashMap<String, String>> getList() {
@@ -141,7 +151,7 @@ public class OwnerList{
         newOwner.setPhone(phone);
         newOwner.setSecureQuestions(secureQuestion);
         newOwner.setVerified(false);
-        newOwner.setId(ownerList.size()+1);
+        newOwner.setId(nextId());
 
         return ownerList.add(newOwner);
     }

@@ -12,9 +12,14 @@ public class RestaurantList {
 
     private static ArrayList<Restaurant> restaurantList = new ArrayList<>();
     private static RestaurantList instance = new RestaurantList();
+    private static int maxId;
     
     private RestaurantList() {
         initialize();
+        maxId = 0;
+        for (Restaurant res : restaurantList)
+            if (maxId < res.getResId())
+                maxId = res.getResId();
     }
     
     public static RestaurantList getInstance() {
@@ -23,6 +28,11 @@ public class RestaurantList {
 
     public ArrayList<Restaurant> getRestaurantList() {
         return restaurantList;
+    }
+
+    public static int nextId() {
+        maxId += 1;
+        return maxId;
     }
 
     public void setRestaurantList(ArrayList<Restaurant> restaurantList) {

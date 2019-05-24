@@ -12,13 +12,23 @@ public class AdminList {
 
     private static ArrayList<Admin> adminList = new ArrayList<>();
     private static AdminList instance = new AdminList();
+    private static int maxId;
 
     private AdminList() { 
         initialize();
+        maxId = 0;
+        for (Admin admin : adminList)
+            if (maxId < admin.getId())
+                maxId = admin.getId();
     }
 
     public static AdminList getInstance() {
         return instance;
+    }
+
+    public static int nextId() {
+        maxId += 1;
+        return maxId;
     }
 
     public Admin get(int index) {
@@ -130,7 +140,7 @@ public class AdminList {
         admin.setSurburb(surburb);
         admin.setPhone(phone);
         admin.setSecureQuestions(secureQuestion);
-        admin.setId(adminList.size() + 1);
+        admin.setId(nextId());
 
         return adminList.add(admin);
     }
