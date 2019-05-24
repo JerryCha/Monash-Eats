@@ -73,7 +73,10 @@ public class OrderController {
 
     // Only customer could access
     public HashMap<String, String> viewCart(int cusId) {
-        return orderList.getCart(cusId).toHashMap();
+        if (orderList.hasCart(cusId))
+            return orderList.getCart(cusId).toHashMap();
+
+        return null;
     }
 
     // 'm': modify quantity, 'a': add item. operateList<itemId, quantity>

@@ -71,7 +71,7 @@ public class OrderList {
         if (!info.containsKey("cusId") && !info.containsKey("address") && !info.containsKey("phone")
                 && !info.containsKey("couponCode"))
             return false;
-        order.setCusId(Integer.parseInt(info.get("cusId")));
+        order.setCusId(cusId);
         order.setAddress(info.get("address"));
         order.setPhone("phone");
         order.setCouponCode(info.get("couponCode"));

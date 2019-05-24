@@ -18,8 +18,12 @@ public class MonashEats {
     }
 
     public void start() {
+        // Clear console.
+        System.out.print('\u000C');
+        // Welcome word
         System.out.println("Welcome to MonashEats");
 
+        // Initialize login status (not login).
         loginId = -1;
         loginRole = -1;
         // Initialize data
@@ -28,7 +32,7 @@ public class MonashEats {
         restaurantController = new RestaurantController();
         rateController = new RateController();
 
-        //
+        // Crea
         Scanner key = new Scanner(System.in);
 
         while (true) {
@@ -434,7 +438,7 @@ public class MonashEats {
                                         couponMap.put("operator", acceptString("New coupon's operator: "));
                                         couponMap.put("value", acceptString("New coupon's value: "));
                                         couponMap.put("appliedItemId",
-                                                acceptString("New coupon's applied item id(split by ','): "));
+                                                acceptString("New coupon's applied item id(split by '_'): "));
                                         restaurantController.editCoupon(resId, 'a', couponMap);
                                     } else if (cpCmd[0].equals("edit")) {
                                         if (cpCmd.length == 1) {
@@ -521,14 +525,17 @@ public class MonashEats {
                     continue;
                 }
                 HashMap<String, String> cart = orderController.viewCart(loginId);
-                System.out.println(cart.get("resId"));
-                System.out.println("Total Price: " + cart.get("totalPrice"));
-                String[] items = cart.get("items").split(";");
-                for (String str : items) {
-                    // itemId, itemName, itemDesc, unitPrice, quantity
-                    String[] itemProperty = str.split("-");
-                    System.out.println("\t" + itemProperty[1] + " " + itemProperty[3] + " " + itemProperty[4]);
-                }
+                if (cart != null) {
+                    System.out.println(cart.get("resId"));
+                    System.out.println("Total Price: " + cart.get("totalPrice"));
+                    String[] items = cart.get("items").split(";");
+                    for (String str : items) {
+                        // itemId, itemName, itemDesc, unitPrice, quantity
+                        String[] itemProperty = str.split("-");
+                        System.out.println("\t" + itemProperty[1] + " " + itemProperty[3] + " " + itemProperty[4]);
+                    }
+                } else 
+                    System.out.println("You don't have item.");
                 if (cmd.length == 2)
                     if (cmd[1].equals("edit")) {
                         System.out.println("TO BE IMPLEMENTED...");
@@ -587,23 +594,26 @@ public class MonashEats {
                     }
                     // Retrieve orders
                     ArrayList<HashMap<String, String>> orders = orderController.getHistoryOrder(loginId, loginRole);
-                    // Print order number
-                    System.out.println(orders.size() + " order records have been found.");
-                    // Print orders
-                    for (int i = 0; i < orders.size(); i++) {
-                        if (loginRole == 1)
-                            System.out.println("Restaurant" + orders.get(i).get("resId"));
-                        else
-                            System.out.println("Customer: " + orders.get(i).get("cusId"));
-                        
-                        System.out.println("* Status: " + orders.get(i).get("status"));
-                        System.out.println("* Time to deliver: " + orders.get(i).get("timeToDeliver"));
-                        System.out.println("* Coupon: " + orders.get(i).get("couponCode"));
-                        String[] items = orders.get(i).get("itemList").split(";");
-                        for (String item : items) {
-                            System.out.println(item);
+                    if (orders != null) {
+                        // Print order number
+                        System.out.println(orders.size() + " order records have been found.");
+                        // Print orders
+                        for (int i = 0; i < orders.size(); i++) {
+                            if (loginRole == 1)
+                                System.out.println("Restaurant" + orders.get(i).get("resId"));
+                            else
+                                System.out.println("Customer: " + orders.get(i).get("cusId"));
+                            
+                            System.out.println("* Status: " + orders.get(i).get("status"));
+                            System.out.println("* Time to deliver: " + orders.get(i).get("timeToDeliver"));
+                            System.out.println("* Coupon: " + orders.get(i).get("couponCode"));
+                            String[] items = orders.get(i).get("itemList").split(";");
+                            for (String item : items) {
+                                System.out.println(item);
+                            }
                         }
-                    }
+                    } else 
+                        System.out.println("You don't have any order");
                 }
             }
             // Admin
@@ -620,41 +630,42 @@ public class MonashEats {
                 }
 
                 if (cmd[1].equals("owner")) {
-                    String[] ownCmd;
+                    System.out.println("TO BE IMPLEMENTED");
+                }
+                else if (cmd[1].equals("customer")) {
+                    
+                    String[] cusCmd;
 
                     do {
                         System.out.println("");
-                        ArrayList<HashMap<String, String>> list = accountController.getAccountList(2);
+                        ArrayList<HashMap<String, String>> list = accountController.getAccountList(1);
                         for (int i = 0; i < list.size(); i++) {
                             HashMap<String, String> ele = list.get(i);
-                            System.out.println(ele.get("actId") + " - " + ele.get("email") + " - " + (Boolean.parseBoolean(ele.get("isVerified"))?"verified":"not verified"));
+                            System.out.println(ele.get("actId") + " - " + ele.get("email"));
                         }
-                        System.out.println("Command instruction: list - list onwers, del <owner id> - delete the owner");
-                        ownCmd = acceptString("admin > owner management > ").split(" ");
+                        System.out.println("Command instruction: list - list customers, del <owner id> - delete the customers");
+                        cusCmd = acceptString("admin > customer management > ").split(" ");
                         try {
-                            if (ownCmd[0].equals("del")) {
-                                int ownerId = Integer.parseInt(ownCmd[1]);
-                                boolean ok = accountController.delAccount(loginId, loginRole, 2, ownerId);
+                            if (cusCmd[0].equals("del")) {
+                                int cusId = Integer.parseInt(cusCmd[1]);
+                                boolean ok = accountController.delAccount(loginId, loginRole, 1, cusId);
                                 if (!ok)
                                     System.out.println("delete failed");
                                 else
-                                    System.out.println("Owner ID " + ownerId + " has been deleted");
+                                    System.out.println("Customer ID " + cusId + " has been deleted");
                             }
-                            else if (ownCmd[0].equals("list")) {
+                            else if (cusCmd[0].equals("list")) {
                                 continue;
                             }
-                            else if (ownCmd[0].equals("exit"))
+                            else if (cusCmd[0].equals("exit"))
                                 break;
                             else 
-                                System.out.println(ownCmd[0] + " is not a valid command.");
+                                System.out.println(cusCmd[0] + " is not a valid command.");
                         } catch (Exception e) {
                             e.printStackTrace();
                             continue;
                         }
-                    } while (true);
-                }
-                else if (cmd[1].equals("customer")) {
-                    System.out.println("TO BE IMPLEMENTED");
+                    } while(true);
                 }
                 else if (cmd[1].equals("restaurant")) {
                     System.out.println("TO BE IMPLEMENTED");

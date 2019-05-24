@@ -21,8 +21,11 @@ public class CustomerList {
         return instance;
     }
 
-    public ArrayList<Customer> getList() {
-        return customerList;
+    public ArrayList<HashMap<String, String>> getList() {
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+        for (Customer customer : customerList)
+            list.add(customer.toHashMap());
+        return list;
     }
 
     public Customer get(int index) {
@@ -60,9 +63,11 @@ public class CustomerList {
         return customerList.add(newCustomer);
     }
 
-    public boolean del(int index) {
-        customerList.remove(index);
-        return true;
+    public boolean del(int cusId) {
+        for (Customer cus : customerList)
+            if (cus.getId() == cusId)
+                return customerList.remove(cus);
+        return false;
     }
 
     public int has(String email) {

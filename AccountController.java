@@ -79,12 +79,12 @@ public class AccountController {
 
             boolean[] results = {false, false};
             // Customer == true
-            if (code[0] == '1')
+            if (code[1] == '1')
                 results[0] = customerList.create(actInfo);
             else
                 results[0] = true;
             // Owner == true
-            if (code[1] == '1')
+            if (code[0] == '1')
                 results[1] = ownerList.create(actInfo);
             else
                 results[1] = true;
@@ -114,7 +114,7 @@ public class AccountController {
             return false;
 
         if (actRole == 1) {
-
+            return customerList.del(actId);
         } else if (actRole == 2) {
             return ownerList.del(actId);
         }
@@ -148,7 +148,7 @@ public class AccountController {
 
     public ArrayList<HashMap<String, String>> getAccountList(int actType) {
         if (actType == 1) {
-            
+            return customerList.getList();
         } else if (actType == 2) {
             return ownerList.getList();
         } else if (actType == 3) {
