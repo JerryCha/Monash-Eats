@@ -1,12 +1,24 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
-public class CustomerList implements SearchableAccountList {
+public class CustomerList {
 
-    private ArrayList<Customer> customerList;
-
-    public CustomerList() {
-        customerList = new ArrayList<>();
+    private static ArrayList<Customer> customerList = new ArrayList<>();
+    private static CustomerList instance = new CustomerList();
+    
+    private CustomerList() {
+        initialize();
+    }
+    
+    public static CustomerList getInstance() {
+        return instance;
     }
 
     public ArrayList<Customer> getList() {
@@ -73,7 +85,6 @@ public class CustomerList implements SearchableAccountList {
         return -1;
     }
 
-    @Override
     public boolean create(HashMap<String, String> actInfo) {
         String email = null;
         String pwdHash = null;
@@ -127,4 +138,77 @@ public class CustomerList implements SearchableAccountList {
         return customerList.add(newCustomer);
     }
 
+    public void initialize() {
+        FileReader reader = null;
+        try {
+            reader = new FileReader("customer_list.dat");
+            Scanner scanner = new Scanner(reader);
+            while (scanner.hasNextLine()) {
+                String[] line = scanner.nextLine().split(",");
+                if (line.length == 8) {
+                    Customer customer = new Customer();
+                    customer.setId(Integer.parseInt(line[0]));
+                    customer.setEmail(line[1]);
+                    customer.setPwdHash(line[2]);
+                    customer.setName(line[3]);
+                    customer.setStreet(line[4]);
+                    customer.setSurburb(line[5]);
+                    customer.setPhone(line[6]);
+                    String[] qas = line[7].split(";");
+                    if (qas.length == 2) {
+                        HashMap<Integer, String> qaMap = new HashMap<>();
+                        for (String qa : qas) {
+                            String[] pair = qa.split("-");
+                            qaMap.put(Integer.parseInt(pair[0]), pair[1]);
+                        }
+                        customer.setSecureQuestions(qaMap);
+                    } else
+                        customer.setSecureQuestions(null);
+
+                    customerList.add(customer);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null)
+                    reader.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void save() {
+        PrintWriter writer = null;
+        File target = null;
+        File backup = null;
+        try {
+            target = new File("customer_list.dat");
+            backup = new File("customer_list.bak");
+            Files.copy(target.toPath(), backup.toPath());
+            writer = new PrintWriter("customer_list.dat");
+            writer = new PrintWriter("customer_list.dat");
+            StringBuffer buffer = new StringBuffer();
+            for (Customer customer : customerList) {
+                buffer.append(customer.toString());
+                buffer.append("\n");
+            }
+            writer.write(buffer.toString());
+            backup.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+            backup.renameTo(target);
+        } finally {
+            if (writer != null)
+                try {
+                    writer.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
+    }
 }

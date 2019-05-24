@@ -16,11 +16,28 @@ public class Order {
     private String couponCode;
 
     public Order() {
-
+        itemList = new ArrayList<>();
     }
 
     public ArrayList<PurchaseItem> getItemList() {
         return itemList;
+    }
+
+    public boolean addItem(HashMap<String, String> itemInfo, int quantity) {
+        PurchaseItem item = new PurchaseItem();
+        if (itemInfo.containsKey("itemId"))
+            item.setItemId(Integer.parseInt(itemInfo.get("itemId")));
+        if (itemInfo.containsKey("itemName"))
+            item.setItemName(itemInfo.get("itemName"));
+        if (itemInfo.containsKey("itemDesc"))
+            item.setItemDesc(itemInfo.get("itemDesc"));
+        if (itemInfo.containsKey("unitPrice"))
+            item.setUnitPrice(Double.parseDouble(itemInfo.get("unitPrice")));
+
+        item.setQuantity(quantity);
+        
+        itemList.add(item);
+        return true;
     }
 
     // TODO: Determine to search by name or id.
@@ -114,7 +131,31 @@ public class Order {
 
     @Override
     public String toString() {
-        return null;
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(cusId);
+        buffer.append(",");
+        buffer.append(resId);
+        buffer.append(",");
+        buffer.append(datetime);
+        buffer.append(",");
+        buffer.append(address);
+        buffer.append(",");
+        buffer.append(phone);
+        buffer.append(",");
+        for (PurchaseItem item : itemList) {
+            buffer.append(item.toString());
+            buffer.append(";");
+        }
+        buffer.append(",");
+        buffer.append(totalPrice);
+        buffer.append(",");
+        buffer.append(couponCode);
+        buffer.append(",");
+        buffer.append(status);
+        buffer.append(",");
+        buffer.append(timeToDeliver);
+        
+        return buffer.toString();
     }
 
     public HashMap<String, String> toHashMap() {

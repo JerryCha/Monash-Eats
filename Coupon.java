@@ -11,7 +11,7 @@ public class Coupon {
     ArrayList<Integer> appliedItemId;
 
     public Coupon() {
-
+        appliedItemId = new ArrayList<>();
     }
 
     public String getCouponCode() {
@@ -74,6 +74,13 @@ public class Coupon {
         buffer.append("-");
         buffer.append(value);
         buffer.append("-");
+        if (appliedItemId.size() == 0)
+            buffer.append("-1");
+        else
+            for (int id : appliedItemId) {
+                buffer.append(id);
+                buffer.append("_");
+            }
 
         return buffer.toString();
     }

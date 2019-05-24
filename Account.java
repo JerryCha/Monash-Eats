@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public abstract class Account {
+public class Account {
 
     // Attributes
     protected int accountId;
@@ -92,19 +92,21 @@ public abstract class Account {
         actMap.put("surburb", surburb);
         actMap.put("phone", phone);
 
-        StringBuffer qaStrBuffer = new StringBuffer();
-        Iterator it = secureQuestions.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            qaStrBuffer.append(pair.getKey());
-            qaStrBuffer.append(",");
-            qaStrBuffer.append((String)pair.getValue());
-            qaStrBuffer.append(";");
-        }
+        if (secureQuestions != null) {
+            StringBuffer qaStrBuffer = new StringBuffer();
+            Iterator it = secureQuestions.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+                qaStrBuffer.append(pair.getKey());
+                qaStrBuffer.append(",");
+                qaStrBuffer.append((String)pair.getValue());
+                qaStrBuffer.append(";");
+            }
 
-        actMap.put("secureQuestion", qaStrBuffer.toString());
+            actMap.put("secureQuestion", qaStrBuffer.toString());
+        } else 
+            actMap.put("secureQuestion", "");
 
         return actMap;
     }
-
 }

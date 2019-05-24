@@ -157,13 +157,16 @@ public class Restaurant {
 
     public void addItem(HashMap<String, String> info) {
         Item item = new Item();
-        item.setItemId(menu.size()+1);
-        if (info.containsKey("name"))
-            item.setItemName(info.get("name"));
-        if (info.containsKey("desc"))
-            item.setItemDesc(info.get("desc"));
+        if (info.containsKey("itemName"))
+            item.setItemName(info.get("itemName"));
+        if (info.containsKey("itemDesc"))
+            item.setItemDesc(info.get("itemDesc"));
         if (info.containsKey("unitPrice"))
             item.setUnitPrice(Double.parseDouble(info.get("unitPrice")));
+        if (info.containsKey("itemId"))
+            item.setItemId(Integer.parseInt(info.get("itemId")));
+        else
+            item.setItemId(menu.size()+1);
 
         menu.add(item);
     }
@@ -209,12 +212,14 @@ public class Restaurant {
             if (couponParams.containsKey("appliedItemId")) {
                 String rawIds = couponParams.get("appliedItemId");
                 ArrayList<Integer> idList = new ArrayList<>();
-                for (String id : rawIds.trim().split(","))
+                for (String id : rawIds.trim().split("_"))
                     try {
                         idList.add(Integer.parseInt(id));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
+                        System.out.println("error: incorrect spliter");
                     }
+                coupon.setAppliedItemId(idList);
             }
 
             couponList.add(coupon);
@@ -293,5 +298,44 @@ public class Restaurant {
         }
         map.put("couponList", buffer.toString());
         return map;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(resId);
+        buffer.append(",");
+        buffer.append(ownerId);
+        buffer.append(",");
+        buffer.append(name);
+        buffer.append(",");
+        buffer.append(desc);
+        buffer.append(",");
+        buffer.append(street);
+        buffer.append(",");
+        buffer.append(surburb);
+        buffer.append(",");
+        buffer.append(email);
+        buffer.append(",");
+        buffer.append(phone);
+        buffer.append(",");
+        for (Coupon coupon : couponList) {
+            buffer.append(coupon.toString());
+            buffer.append(";");
+        }
+        buffer.append(",");
+        for (Item item : menu) {
+            buffer.append(item.toString());
+            buffer.append(";");
+        }
+        buffer.append(",");
+        buffer.append(openTime);
+        buffer.append(",");
+        buffer.append(businessHour);
+        buffer.append(",");
+        buffer.append(openDay);
+        buffer.append(",");
+        
+        return buffer.toString();
     }
 }

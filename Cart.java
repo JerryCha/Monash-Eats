@@ -70,7 +70,7 @@ public class Cart {
     public boolean addItem(HashMap<String, String> itemInfo, int quantity) {
         PurchaseItem item = new PurchaseItem();
         if (itemInfo.containsKey("itemId"))
-            item.setItemId(Integer.parseInt("itemId"));
+            item.setItemId(Integer.parseInt(itemInfo.get("itemId")));
         if (itemInfo.containsKey("itemName"))
             item.setItemName(itemInfo.get("itemName"));
         if (itemInfo.containsKey("itemDesc"))
@@ -79,7 +79,8 @@ public class Cart {
             item.setUnitPrice(Double.parseDouble(itemInfo.get("unitPrice")));
 
         item.setQuantity(quantity);
-
+        
+        itemList.add(item);
         return true;
     }
 
@@ -112,5 +113,19 @@ public class Cart {
         map.put("totalPrice", Double.toString(getTotalPrice()));
 
         return map;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(resId);
+        buffer.append(",");
+        for (PurchaseItem item : itemList) {
+            buffer.append(item.toString());
+            buffer.append(';');
+        }
+        buffer.append(",");
+        buffer.append(getTotalPrice());
+        return buffer.toString();
     }
 }

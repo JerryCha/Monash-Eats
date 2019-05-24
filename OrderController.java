@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class OrderController {
@@ -8,17 +9,20 @@ public class OrderController {
     private CustomerList customerList;
 
     public OrderController() {
-        orderList = new OrderList();
-        restaurantList = new RestaurantList();
+        orderList = OrderList.getInstance();
+        customerList = CustomerList.getInstance();
+        restaurantList = RestaurantList.getInstance();
     }
 
-    public boolean placeOrder(HashMap<String, String> info) {
-        if (!info.containsKey("cusId"))
+    public boolean placeOrder(HashMap<String, String> info) throws Exception {
+        if (!info.containsKey("actId")) {
+            System.out.println("actId not exist");
             return false;
+        }
         int cusId = -1;
         try {
-            cusId = Integer.parseInt(info.get("cusId"));
-            info.remove("cusId");
+            cusId = Integer.parseInt(info.get("actId"));
+            info.remove("actId");
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -26,7 +30,7 @@ public class OrderController {
 
         // Check amount restriction
         if (!isWithinAmount(cusId, 0, 100))
-            return false;
+            throw new Exception("amount exceed");
 
         // Calculate discounted price if couple applied
         String couponCode = null;
@@ -48,7 +52,7 @@ public class OrderController {
                             double original = orderList.getCart(cusId).getItemById(i).getUnitPrice();
                             orderList.getCart(cusId).getItemById(i).setUnitPrice(original*val);
                         }
-                    else if (op == '-')
+                    else if (op == 'r') // reduce
                         for (Integer i : appliedItems) {
                             double original = orderList.getCart(cusId).getItemById(i).getUnitPrice();
                             orderList.getCart(cusId).getItemById(i).setUnitPrice(original-val);
@@ -80,9 +84,12 @@ public class OrderController {
             if (!orderList.hasCart(cusId))
                 return false;
 
-            for (Map.Entry<Integer, Integer> entry : operateList.entrySet())
+            Iterator<Map.Entry<Integer, Integer>> it = operateList.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<Integer, Integer> entry = it.next();
                 if (orderList.getCart(cusId).hasItem(entry.getKey()))
                     orderList.getCart(cusId).getItemById(entry.getKey()).setQuantity(entry.getValue());
+            }
 
             return true;
         } else if (operator == 'a') {
@@ -90,8 +97,10 @@ public class OrderController {
             if (!orderList.hasCart(cusId))
                 orderList.addCart(cusId, resId);
 
-            for (Map.Entry<Integer, Integer> entry : operateList.entrySet()) {
-                HashMap<String, String> item = restaurantList.getRestaurant(resId).getItem(entry.getKey()).toHashMap();
+            Iterator<Map.Entry<Integer, Integer>> it = operateList.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<Integer, Integer> entry = it.next();
+                HashMap<String, String> item = restaurantList.getRestaurant(resId).getItemById(entry.getKey()).toHashMap();
                 if (orderList.getCart(cusId).hasItem(entry.getKey()))
                     orderList.getCart(cusId).getItemById(entry.getKey()).increaseQty(entry.getValue());
                 orderList.getCart(cusId).addItem(item, entry.getValue());
@@ -108,5 +117,9 @@ public class OrderController {
         if (price > upperBound || price < lowerBound)
             return false;
         return true;
+    }
+
+    public void saveData() {
+        orderList.save();
     }
 }

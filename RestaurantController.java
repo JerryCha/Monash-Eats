@@ -7,9 +7,9 @@ public class RestaurantController {
     private RateList rateList;
 
     public RestaurantController() {
-        restaurantList = new RestaurantList();
-        ownerList = new OwnerList();
-        rateList = new RateList();
+        restaurantList = RestaurantList.getInstance();
+        ownerList = OwnerList.getInstance();
+        rateList = RateList.getInstance();
     }
 
     public boolean createRestaurant(HashMap<String, String> info) {
@@ -28,19 +28,19 @@ public class RestaurantController {
             restaurantList.getRestaurant(resId).setName(info.get("name"));
         
         if (info.containsKey("desc"))
-            restaurantList.getRestaurant(resId).setName(info.get("desc"));
+            restaurantList.getRestaurant(resId).setDesc(info.get("desc"));
         
         if (info.containsKey("surburb"))
-            restaurantList.getRestaurant(resId).setName(info.get("surburb"));
+            restaurantList.getRestaurant(resId).setSurburb(info.get("surburb"));
 
         if (info.containsKey("street"))
-            restaurantList.getRestaurant(resId).setName(info.get("street"));
+            restaurantList.getRestaurant(resId).setStreet(info.get("street"));
 
         if (info.containsKey("email"))
-            restaurantList.getRestaurant(resId).setName(info.get("email"));
+            restaurantList.getRestaurant(resId).setEmail(info.get("email"));
 
         if (info.containsKey("phone"))
-            restaurantList.getRestaurant(resId).setName(info.get("phone"));
+            restaurantList.getRestaurant(resId).setPhone(info.get("phone"));
 
         return true;
     }
@@ -60,10 +60,12 @@ public class RestaurantController {
                 map.put("surburb", restaurantList.getRestaurantList().get(i).getSurburb());
                 ArrayList<Integer> rate = rateList.getRestaurantRateValue(restaurantList.getRestaurantList().get(i).getResId());
                 double avg = 0.0;
-                for (int r : rate)
-                    avg += r;
-                avg = avg / rate.size();
-                map.put("rate", Double.toString(avg));
+                if (rate.size() != 0) {
+                    for (int r : rate)
+                        avg += r;
+                    avg = avg / rate.size();
+                }
+                map.put("rate", avg == 0?"Not rated":Double.toString(avg));
 
                 results.add(map);
             }
@@ -105,7 +107,32 @@ public class RestaurantController {
     }
 
     public HashMap<String, String> viewItem(int resId, int itemId) {
-        return restaurantList.getRestaurant(resId).getItemById(itemId).toHashMap();
+        HashMap<String, String> itemMap = restaurantList.getRestaurant(resId).getItemById(itemId).toHashMap();
+        // Count rate
+        ArrayList<Integer> itemRates = rateList.getItemRatesValue(resId, itemId);
+        int max = 0;
+        if (itemRates.size() != 0) {
+            int[] rateCount = new int[]{0, 0, 0, 0, 0};
+            for (int i : itemRates)
+                rateCount[i-1] += 1;
+                
+            for (int i = 1; i < 5; i++)
+                if (rateCount[i] > rateCount[max-1])
+                    max = i+1;
+        }
+        // add rate to map
+        String rateStr;
+        switch(max) {
+            case 1: {rateStr = "Very Bad";break;}
+            case 2: {rateStr = "Bad";break;}
+            case 3: {rateStr = "Medium";break;}
+            case 4: {rateStr = "Good";break;}
+            case 5: {rateStr = "Very Good";break;}
+            default: {rateStr = "Not rated";break;}
+        }
+        itemMap.put("itemRate", rateStr);
+        // return
+        return itemMap;
     }
 
     public boolean editItem(int resId, char operator, int itemId, HashMap<String, String> info) {
@@ -149,5 +176,9 @@ public class RestaurantController {
 
     private boolean lengthWithinRange(String str, int lowerBound, int upperBound) {
         return false;
+    }
+
+    public void saveData() {
+        restaurantList.save();
     }
 }

@@ -12,15 +12,16 @@ public class AccountController {
     private AdminList adminList;
 
     public AccountController() {
-        customerList = new CustomerList();
-        ownerList = new OwnerList();
-        adminList = new AdminList();
+        customerList = CustomerList.getInstance();
+        ownerList = OwnerList.getInstance();
+        adminList = AdminList.getInstance();
     }
 
     // -1: not found; -2: error; -3: credential incorrect
     public int authenticate(String email, String pwd, int role) {
-        String pwdHash = getSHA256String(pwd);
-
+        /*String pwdHash = getSHA256String(pwd);
+        System.out.println("log| pwdHash: " + pwdHash);*/String pwdHash = pwd;
+        
         if (pwdHash == null)
             return -1;  // Error happened
 
@@ -54,13 +55,15 @@ public class AccountController {
         else {
             // Get roleCode
             char[] code = actInfo.get("roleCode").trim().toCharArray();
+            System.out.println(code.length);
 
             if (code.length != 2)
                 return false;   // incorrect code format.
 
             // Convert pwd to pwdHash
             if (actInfo.containsKey("pwd")) {
-                actInfo.put("pwdHash", getSHA256String(actInfo.get("pwd")));
+                //actInfo.put("pwdHash", getSHA256String(actInfo.get("pwd")));
+                actInfo.put("pwdHash", actInfo.get("pwd"));
                 actInfo.remove("pwd");
             }
 
@@ -108,13 +111,13 @@ public class AccountController {
             return false;
 
         // Authenticate failed
-        if (adminList.get(loginId) == null)
+        if (adminList.getById(loginId) == null)
             return false;
 
         if (actRole == 1) {
 
         } else if (actRole == 2) {
-            
+            return ownerList.del(actId);
         }
 
         return true;
@@ -146,7 +149,7 @@ public class AccountController {
 
     public ArrayList<HashMap<String, String>> getAccountList(int actType) {
         if (actType == 1) {
-
+            
         } else if (actType == 2) {
             return ownerList.getList();
         } else if (actType == 3) {
@@ -154,5 +157,11 @@ public class AccountController {
         }
 
         return null;
+    }
+
+    public void saveData() {
+        customerList.save();
+        ownerList.save();
+        adminList.save();
     }
 }

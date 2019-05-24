@@ -1,16 +1,24 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
-public class AdminList implements SearchableAccountList{
+public class AdminList {
 
-    private ArrayList<Admin> adminList;
+    private static ArrayList<Admin> adminList = new ArrayList<>();
+    private static AdminList instance = new AdminList();
 
-    public AdminList() {
-        adminList = new ArrayList<>();
+    private AdminList() { 
+        initialize();
     }
 
-    public Admin[] getList() {
-        return (Admin[]) adminList.toArray();
+    public static AdminList getInstance() {
+        return instance;
     }
 
     public Admin get(int index) {
@@ -38,6 +46,7 @@ public class AdminList implements SearchableAccountList{
     }
 
     public boolean add(Admin newAdmin) {
+        Admin admin = new Admin();
         return adminList.add(newAdmin);
     }
 
@@ -63,7 +72,7 @@ public class AdminList implements SearchableAccountList{
         return adminList.size();
     }
 
-    @Override
+
     public int getIdByEmail(String email) {
         for (Admin admin : adminList)
             if (admin.getEmail().equals(email))
@@ -72,7 +81,7 @@ public class AdminList implements SearchableAccountList{
         return -1;
     }
 
-    @Override
+
     public boolean create(HashMap<String, String> actInfo) {
         String email = null;
         String pwdHash = null;
@@ -100,7 +109,7 @@ public class AdminList implements SearchableAccountList{
             for (String qa : qaPair) {
                 String[] qaArray = qa.split(",");
 
-                if (qaArray.length != 2)    // Validate whether it is a pair
+                if (qaArray.length != 2) // Validate whether it is a pair
                     continue;
 
                 try {
@@ -121,8 +130,81 @@ public class AdminList implements SearchableAccountList{
         admin.setSurburb(surburb);
         admin.setPhone(phone);
         admin.setSecureQuestions(secureQuestion);
-        admin.setId(adminList.size()+1);
+        admin.setId(adminList.size() + 1);
 
         return adminList.add(admin);
+    }
+
+    public void initialize() {
+        FileReader reader = null;
+        try {
+            reader = new FileReader("admin_list.dat");
+            Scanner scanner = new Scanner(reader);
+            while (scanner.hasNextLine()) {
+                String[] line = scanner.nextLine().split(",");
+                if (line.length == 8) {
+                    Admin admin = new Admin();
+                    admin.setId(Integer.parseInt(line[0]));
+                    admin.setEmail(line[1]);
+                    admin.setPwdHash(line[2]);
+                    admin.setName(line[3]);
+                    admin.setStreet(line[4]);
+                    admin.setSurburb(line[5]);
+                    admin.setPhone(line[6]);
+                    String[] qas = line[7].split(";");
+                    if (qas.length == 2) {
+                        HashMap<Integer, String> qaMap = new HashMap<>();
+                        for (String qa : qas) {
+                            String[] pair = qa.split("-");
+                            qaMap.put(Integer.parseInt(pair[0]), pair[1]);
+                        }
+                        admin.setSecureQuestions(qaMap);
+                    } else
+                        admin.setSecureQuestions(null);
+
+                    adminList.add(admin);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null)
+                    reader.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void save() {
+        PrintWriter writer = null;
+        File target = null;
+        File backup = null;
+        try {
+            target = new File("admin_list.dat");
+            backup = new File("admin_list.dat.bak");
+            Files.copy(target.toPath(), backup.toPath());
+            writer = new PrintWriter("admin_list.dat");
+            StringBuffer buffer = new StringBuffer();
+            for (Admin admin : adminList) {
+                buffer.append(admin.toString());
+                buffer.append("\n");
+            }
+            writer.write(buffer.toString());
+            backup.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+            backup.renameTo(target);
+        } finally {
+            if (writer != null)
+                try {
+                    writer.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
     }
 }

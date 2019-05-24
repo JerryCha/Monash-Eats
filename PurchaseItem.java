@@ -43,6 +43,7 @@ public class PurchaseItem extends Item {
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer(super.toString());
+        buffer.append('-');
         buffer.append(quantity);
         // itemId, itemName, itemDesc, unitPrice, quantity
         return buffer.toString();

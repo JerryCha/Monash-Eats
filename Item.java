@@ -70,7 +70,6 @@ public class Item {
         buffer.append(itemDesc);
         buffer.append('-');
         buffer.append(unitPrice);
-        buffer.append('-');
         return buffer.toString();
     }
 }
