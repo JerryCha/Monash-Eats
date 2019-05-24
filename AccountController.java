@@ -55,7 +55,6 @@ public class AccountController {
         else {
             // Get roleCode
             char[] code = actInfo.get("roleCode").trim().toCharArray();
-            System.out.println(code.length);
 
             if (code.length != 2)
                 return false;   // incorrect code format.

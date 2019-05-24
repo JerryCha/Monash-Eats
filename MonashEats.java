@@ -297,6 +297,8 @@ public class MonashEats {
                         boolean ok = false;
                         if (subCmds[0].equals("finish")) {
                             ok = orderController.editCart(loginId, resId, 'a', ops);
+                        } else if (subCmds[0].equals("leave")) {
+                            continue;
                         }
                         if (!ok)
                             System.out.println("Not ok");
