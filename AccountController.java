@@ -11,13 +11,22 @@ public class AccountController {
     private OwnerList ownerList;
     private AdminList adminList;
 
+    /**
+     * Initialize account controller. 
+     */
     public AccountController() {
         customerList = CustomerList.getInstance();
         ownerList = OwnerList.getInstance();
         adminList = AdminList.getInstance();
     }
 
-    // -1: not found; -2: error; -3: credential incorrect
+    /**
+     * Authentication.
+     * @param email account email
+     * @param pwd account password
+     * @param role attempting to login as. 1-customer, 2-owner, 3-admin
+     * @return account id (role associated)
+     */
     public int authenticate(String email, String pwd, int role) {
         /*String pwdHash = getSHA256String(pwd);
         System.out.println("log| pwdHash: " + pwdHash);*/String pwdHash = pwd;
@@ -43,7 +52,7 @@ public class AccountController {
     /**
      * Register a user.
      * @param actInfo
-     * @return
+     * @return register status. 
      */
     public boolean register(HashMap<String, String> actInfo) throws Exception{
         if (actInfo == null)
@@ -79,13 +88,19 @@ public class AccountController {
 
             boolean[] results = {false, false};
             // Customer == true
-            if (code[1] == '1')
+            if (code[1] == '1') {
+                if (customerList.has(actInfo.get("email")) != -1)
+                    throw new Exception("Customer existed");
                 results[0] = customerList.create(actInfo);
+            }
             else
                 results[0] = true;
             // Owner == true
-            if (code[0] == '1')
+            if (code[0] == '1') {
+                if (ownerList.has(actInfo.get("email")) != -1)
+                    throw new Exception("Owner existed");
                 results[1] = ownerList.create(actInfo);
+            }
             else
                 results[1] = true;
 
@@ -93,17 +108,33 @@ public class AccountController {
         }
     }
 
+    /**
+     * Get account informatin.
+     * @param id account id
+     * @param role account role. 1-customer, 2-owner, 3-admin
+     * @return account hashmap
+     */
     public HashMap<String, String> getAccount(int id, int role) {
         HashMap<String, String> accountInfo = null;
         if (role == 1) {
             return customerList.getById(id).toHashMap();
         } else if (role == 2) {
             return ownerList.getById(id).toHashMap();
-        } else {
+        } else if (role == 3) {
             return adminList.getById(id).toHashMap();
         }
+
+        return null;
     }
 
+    /**
+     * Delete an account. Only admin has privilege.
+     * @param loginId admin id
+     * @param roleCode admin role
+     * @param actRole the role of account to be deleted
+     * @param actId the id of account to be deleted
+     * @return delete result
+     */
     public boolean delAccount(int loginId, int roleCode, int actRole, int actId) {
         // Not admin
         if (roleCode != 3)
@@ -122,6 +153,11 @@ public class AccountController {
         return true;
     }
 
+    /**
+     * SHA256 hash. Currently not in use due to anormal function.
+     * @param str String to be hashed.
+     * @return SHA256 hash result
+     */
     private String getSHA256String(String str) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -134,6 +170,11 @@ public class AccountController {
         return null;
     }
 
+    /**
+     * Validate an string is numeric
+     * @param str The string to be validated.
+     * @return validation result.
+     */
     private boolean isNumeric(String str) {
         if (str.length() == 0)
             return false;
@@ -146,6 +187,11 @@ public class AccountController {
         return true;
     }
 
+    /**
+     * Get the account list of a role.
+     * @param actType Account role code.
+     * @return The list of hashmaps of account.
+     */
     public ArrayList<HashMap<String, String>> getAccountList(int actType) {
         if (actType == 1) {
             return customerList.getList();
@@ -158,6 +204,10 @@ public class AccountController {
         return null;
     }
 
+    /**
+     * Call list to write data to file system.
+     * Only call the list related to account service.
+     */
     public void saveData() {
         customerList.save();
         ownerList.save();

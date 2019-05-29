@@ -10,10 +10,16 @@ import java.util.Scanner;
 
 public class AdminList {
 
+    // Admin list. 
     private static ArrayList<Admin> adminList = new ArrayList<>();
+    // AdminList instance
     private static AdminList instance = new AdminList();
+    // 
     private static int maxId;
 
+    /**
+     * Constructor to load data from file and get the current max id of admin account.
+     */
     private AdminList() { 
         initialize();
         maxId = 0;
@@ -22,19 +28,37 @@ public class AdminList {
                 maxId = admin.getId();
     }
 
+    /**
+     * Get instance of class
+     * @return instance of class
+     */
     public static AdminList getInstance() {
         return instance;
     }
 
+    /**
+     * Get next admin id. Used in admin create.
+     * @return next id
+     */
     public static int nextId() {
         maxId += 1;
         return maxId;
     }
 
+    /**
+     * Get admin by index
+     * @param index index
+     * @return The indexth's admin
+     */
     public Admin get(int index) {
         return adminList.get(index);
     }
 
+    /**
+     * Get admin by adminId
+     * @param id admin id
+     * @return Admin with adminId. If not found, return null.
+     */
     public Admin getById(int id) {
         for (Admin admin : adminList)
             if (admin.getId() == id)
@@ -43,6 +67,11 @@ public class AdminList {
         return null;
     }
 
+    /**
+     * Get admin by email
+     * @param email email address of admin.
+     * @return Admin with email address. If not found, return null.
+     */
     public Admin getByEmail(String email) {
         for (int i = 0; i < adminList.size(); i++)
             if (adminList.get(i).getEmail().equals(email))
@@ -51,25 +80,50 @@ public class AdminList {
         return null;
     }
 
+    /**
+     * Set adminList
+     * @param adminList
+     */
     public void setList(ArrayList<Admin> adminList) {
         this.adminList = adminList;
     }
 
+    /**
+     * Add an admin
+     * @param newAdmin the new admin
+     * @return add result.
+     */
     public boolean add(Admin newAdmin) {
         Admin admin = new Admin();
         return adminList.add(newAdmin);
     }
 
+    /**
+     * Set indexth's admin
+     * @param index 
+     * @param admin
+     * @return set result
+     */
     public boolean set(int index, Admin admin) {
         adminList.set(index, admin);
         return true;
     }
 
+    /**
+     * Delete an admin by index
+     * @param index
+     * @return deletion result
+     */
     public boolean del(int index) {
         adminList.remove(index);
         return true;
     }
 
+    /**
+     * Check whether there is an admin with given email address
+     * @param email
+     * @return adminId. -1 means no such admin with given email address.
+     */
     public int has(String email) {
         for (int i = 0; i < adminList.size(); i++)
             if (adminList.get(i).getEmail().equals(email))
@@ -78,11 +132,20 @@ public class AdminList {
         return -1;
     }
 
+    /**
+     * Get the number of admin.
+     * @return The number of admin
+     */
     public int getCount() {
         return adminList.size();
     }
 
 
+    /**
+     * Get the admin id by email
+     * @param email admin's email address
+     * @return admin id. -1 means no such admin.
+     */
     public int getIdByEmail(String email) {
         for (Admin admin : adminList)
             if (admin.getEmail().equals(email))
@@ -91,7 +154,11 @@ public class AdminList {
         return -1;
     }
 
-
+    /**
+     * Create admin
+     * @param actInfo
+     * @return creation result.
+     */
     public boolean create(HashMap<String, String> actInfo) {
         String email = null;
         String pwdHash = null;
@@ -145,6 +212,9 @@ public class AdminList {
         return adminList.add(admin);
     }
 
+    /**
+     * Initialize data by reading file.
+     */
     public void initialize() {
         FileReader reader = null;
         try {
@@ -176,19 +246,21 @@ public class AdminList {
                 }
             }
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
+            System.out.println("There is no such data source file.");
             e.printStackTrace();
         } finally {
             try {
                 if (reader != null)
                     reader.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                System.out.println("IOException happened. May be something wrong with your IO system");
             }
         }
     }
 
+    /**
+     * Save data to file system.
+     */
     public void save() {
         PrintWriter writer = null;
         File target = null;

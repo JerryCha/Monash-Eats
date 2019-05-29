@@ -7,6 +7,11 @@ public class Customer extends Account {
 
     }
 
+    /**
+     * Convert customer information to a string
+     * format: accountId,email,pwdHash,name,street,surburb,phone,quiz1Code-quiz1Ans;quiz2Code-quiz2Ans;
+     * @return information string.
+     */
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();

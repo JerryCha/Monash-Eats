@@ -7,6 +7,11 @@ public class Admin extends Account {
 
     }
 
+    /**
+     * Override of toString. Generate tbe account string. Attributes splited by ','
+     * Format: accountId,email,pwdHash,name,street,surburb,phone,quiz1Code-quiz1Ans;quiz2Code-quiz2Ans;
+     * @return admin string
+     */
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();

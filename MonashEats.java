@@ -12,11 +12,18 @@ public class MonashEats {
     private RestaurantController restaurantController;
     private RateController rateController;
 
+    /**
+     * Start application by specify arguments.
+     * In this version, application could not take any argument.
+     */
     public static void main(String[] args) {
         MonashEats monashEats = new MonashEats();
         monashEats.start();
     }
 
+    /**
+     * Start application
+     */
     public void start() {
         // Clear console.
         System.out.print('\u000C');
@@ -32,8 +39,8 @@ public class MonashEats {
         restaurantController = new RestaurantController();
         rateController = new RateController();
 
-        // Crea
-        Scanner key = new Scanner(System.in);
+        
+        //Scanner key = new Scanner(System.in);
 
         while (true) {
             // Accept command
@@ -200,7 +207,22 @@ public class MonashEats {
                         if (e.getMessage().equals("Phone format incorrect")) {
                             System.out.print(e.getMessage() + " Please re-enter: ");
                             info.put("phone", acceptString(""));
-                        } else
+                        }
+                        if (e.getMessage().equals("Customer existed")) {
+                            System.out.println("Customer existed. Please provide a new email. Or type exit to suspend register process.");
+                            String str = acceptString("");
+                            if (str.equals("exit"))
+                                break;
+                            info.put("email", str);
+                        }
+                        if (e.getMessage().equals("Onwer existed.")) {
+                            System.out.println("Onwer existed. Please provide a new email. Or type exit to suspend register process.");
+                            String str = acceptString("");
+                            if (str.equals("exit"))
+                                break;
+                            info.put("email", str);
+                        }
+                        else
                             e.printStackTrace();
                     }
                 } while (!ok);
@@ -720,7 +742,7 @@ public class MonashEats {
         return nInt;
     }
 
-    public Double acceptDouble(String msg) {
+    private Double acceptDouble(String msg) {
         String str;
         double nDouble = -101;
         boolean errorFlag = false;

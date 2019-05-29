@@ -10,10 +10,16 @@ import java.util.Scanner;
 
 public class CustomerList {
 
+    // customer list
     private static ArrayList<Customer> customerList = new ArrayList<>();
+    // class instance
     private static CustomerList instance = new CustomerList();
+    // Current maximum id
     private static int maxId;
     
+    /**
+     * Constructor that initialize the list
+     */
     private CustomerList() {
         initialize();
         maxId = 0;
@@ -22,15 +28,27 @@ public class CustomerList {
                 maxId = cus.getId();
     }
 
+    /**
+     * get the next id
+     * @return next maxId
+     */
     private static int nextId() {
         maxId += 1;
         return maxId;
     }
     
+    /**
+     * Get the class's instance
+     * @return instance
+     */
     public static CustomerList getInstance() {
         return instance;
     }
 
+    /**
+     * Get the list's information
+     * @return List of customer hashmap.
+     */
     public ArrayList<HashMap<String, String>> getList() {
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
         for (Customer customer : customerList)
@@ -38,10 +56,20 @@ public class CustomerList {
         return list;
     }
 
+    /**
+     * Get customer by index
+     * @param index index
+     * @return customer
+     */
     public Customer get(int index) {
         return customerList.get(index);
     }
 
+    /**
+     * Get customer by id
+     * @param id customer id
+     * @return customer. if not found, return null.
+     */
     public Customer getById(int id) {
         for (Customer cus : customerList)
             if (cus.getId() == id)
@@ -50,6 +78,11 @@ public class CustomerList {
         return null;
     }
 
+    /**
+     * Get customer by email
+     * @param email email
+     * @return customer. If not found, return null.
+     */
     public Customer getByEmail(String email) {
         for (int i = 0; i < customerList.size(); i++)
             if (customerList.get(i).getEmail().equals(email))
@@ -58,21 +91,40 @@ public class CustomerList {
         return null;
     }
 
+    /**
+     * Set customerlist
+     * @param customerList 
+     */
     public void setList(ArrayList<Customer> customerList) {
         this.customerList = customerList;
     }
 
+    /**
+     * Set customer
+     * @param index index of customer in the list
+     * @param customer
+     * @return result
+     */
     public boolean set(int index, Customer customer) {
         customerList.set(index, customer);
         return true;
     }
 
-    // TODO: Change parameter type to HashMap. Add parser.
+    /**
+     * Add a customer to the list
+     * @param newCustomer new customer
+     * @return result
+     */
     public boolean add(Customer newCustomer) {
         newCustomer.setId(customerList.size()+1);
         return customerList.add(newCustomer);
     }
 
+    /**
+     * Delete a customer by id.
+     * @param cusId customer id
+     * @return deletion result
+     */
     public boolean del(int cusId) {
         for (Customer cus : customerList)
             if (cus.getId() == cusId)
@@ -80,6 +132,11 @@ public class CustomerList {
         return false;
     }
 
+    /**
+     * Has a customer in the list. Checked by email.
+     * @param email 
+     * @return index. If not found, return -1
+     */
     public int has(String email) {
         // Initialize iterator
         for (int i = 0; i < customerList.size(); i++)
@@ -89,10 +146,19 @@ public class CustomerList {
         return -1;   // Not found
     }
 
+    /**
+     * Get the number of customer in the list
+     * @return the number of customer
+     */
     public int getCount() {
         return customerList.size();
     }
 
+    /**
+     * Get the customer id by email
+     * @param email 
+     * @return customer id. If not found, return null.
+     */
     public int getIdByEmail(String email) {
         for (int i = 0; i < customerList.size(); i++)
             if (customerList.get(i).getEmail().equals(email))
@@ -100,6 +166,11 @@ public class CustomerList {
         return -1;
     }
 
+    /**
+     * Create a customer by passing information wrapped in hashmap
+     * @param actInfo information
+     * @return creation result.
+     */
     public boolean create(HashMap<String, String> actInfo) {
         String email = null;
         String pwdHash = null;
@@ -153,6 +224,9 @@ public class CustomerList {
         return customerList.add(newCustomer);
     }
 
+    /**
+     * Initialize the cusomter list by reading file
+     */
     public void initialize() {
         FileReader reader = null;
         try {
@@ -197,6 +271,9 @@ public class CustomerList {
         }
     }
 
+    /**
+     * Save data to file system.
+     */
     public void save() {
         PrintWriter writer = null;
         File target = null;
